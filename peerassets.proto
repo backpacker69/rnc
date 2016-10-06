@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message DeckSpawn {
+  uint32 version = 1;
+  string short_name = 2;
+  uint32 number_of_decimals = 3;
+  bool issue_once = 4;
+  bytes free_data = 5;
+}
+
+message CardTransfer {
+  uint32 version = 1;
+  uint64 amount = 2;
+  uint32 number_of_decimals = 3;
+  bytes free_data = 4;
+}
