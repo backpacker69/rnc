@@ -35,10 +35,10 @@ To easily query for PeerAsset transactions, the PeerAssets protocol requires a P
 
 ### Deck spawn transaction layout
 
-For the deck spawn transaction, the following in and properties are specified:
+For the deck spawn transaction, the following properties are specified:
 * `txnid`: The unique identifier for this asset.
 * `vin[0]`: The owner of the Asset. Ownership of the asset is proven by proving ownership over the Public Key Hash (PKH) or Script Hash (SH) originating `vin[0]`.
-* `vout[0]`: PeerAssets tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. The minimum output amount is 0.005PPC, see P2TH section for for reasoning.
+* `vout[0]`: PeerAssets tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients.
 * `vout[1]`: (`OP_RETURN`) Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
@@ -56,7 +56,11 @@ PPC testnet:
 
 ### Card transfer transaction layout
 
-TODO
+For the card transfer transaction, the following properties are specified:
+* `vin[0]`: The sending party of the transfer transaction.
+* `vout[0]`: The receiving party of the transfer transaction.
+* `vout[1]`: Specific asset tag using a P2TH output. This tag makes it easy for nodes to follow transactions of a specific asset.
+* `vout[2]`: (`OP_RETURN`) Asset transfer data. A protobuf3 encoded message containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
 
 ### Card transfer tag generation
 
