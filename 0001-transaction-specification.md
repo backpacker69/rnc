@@ -29,6 +29,10 @@ This RNC is meant to iterate and agree on the PeerAsset transaction protocol.
 
 A PeerAssets transaction encodes it's information in the transaction's inputs (`vin[]`), outputs (`vout[]`) and a special meta-data output (`OP_RETURN`).
 
+### P2TH tags
+
+To easily query for PeerAsset transactions, the PeerAssets protocol requires a P2TH output in it's transactions. This output is required to hold a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous P2TH UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as that would not incentivize UTXO cleanup.
+
 ### Deck spawn transaction layout
 
 For the deck spawn transaction, the following in and properties are specified:
@@ -38,15 +42,7 @@ For the deck spawn transaction, the following in and properties are specified:
 * `vout[1]`: (`OP_RETURN`) Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
-### Card transfer transaction layout
-
-TODO
-
-### P2TH tags
-
-The PeerAssets protocol requires a P2TH output holding a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous P2TH UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as it would not incentivize UTXO cleanup.
-
-#### Deck spawn tags
+### Deck spawn tags
 
 The deck spawn tag private keys are publicly known so it can be imported in every ppcoin node to easily query for deck spawn transactions without the need for a block explorer and to allow any node to claim the tag fees resulting in an UTXO cleanup.
 
@@ -58,10 +54,14 @@ PPC testnet:
 - `PAprod`: miYNy9BbMkQ8Y5VaRDor4mgH5b3FEzVySr - 92NRcL14QbFBREH8runJAq3Q1viQiHoqTmivE8SNRGJ2Y1U6G3a
 - `PAtest`: mwqncWSnzUzouPZcLQWcLTPuSVq3rSiAAa - 92oB4Eb4GBfutvtEqDZq3T5avC7pnEkPVme23qTb5mDdDesinm6
 
-#### Card transfer tag generation
+### Card transfer transaction layout
+
+TODO
+
+### Card transfer tag generation
 
 The card transfer tag refers to the asset's unique id, the deck spawn transaction id, as this allows nodes interested in this asset to easily retrieve it's card transfer transactions.
-To generate the card transfer tag, the deck spawn transaction id is used as the raw private key, the code below illustrates how this is done using the bitcore JavaScript library.
+To generate the card transfer tag, the deck spawn transaction id is used as the raw private key. The code below illustrates how this is done using the bitcore JavaScript library.
 
 ```
 var deckSpawnTxid = '5faf805821abc7307a9a38d1432521be325bd40cb492742c3164dd34fb78c283';
