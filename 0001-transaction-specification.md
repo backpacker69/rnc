@@ -27,36 +27,36 @@ This RNC is meant to iterate and agree on the PeerAsset transaction protocol.
 
 ## Detailed design
 
-A PeerAssets transaction encodes it's information in the transaction's inputs (vin[]), outputs (vout[]) and a special meta-data output (OP_RETURN).
+A PeerAssets transaction encodes it's information in the transaction's inputs (`vin[]`), outputs (`vout[]`) and a special meta-data output (`OP_RETURN`).
 
 ### Deck spawn transaction layout
 
 For the deck spawn transaction, the following in and properties are specified:
-* txnid: The unique identifier for this asset.
-* vin[0]: The owner of the Asset. Ownership of the asset is proven by proving ownership over the Public Key Hash (PKH) or Script Hash (SH) originating vin[0].
-* vout[0]: PeerAssets tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. The minimum output amount is 0.005PPC, see P2TH section for for reasoning.
-* vout[1] (OP_RETURN): Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
-* all other in and outputs are free to be used in any way. vout[2] will typically be used as a change output.
+* `txnid`: The unique identifier for this asset.
+* `vin[0]`: The owner of the Asset. Ownership of the asset is proven by proving ownership over the Public Key Hash (PKH) or Script Hash (SH) originating `vin[0]`.
+* `vout[0]`: PeerAssets tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. The minimum output amount is 0.005PPC, see P2TH section for for reasoning.
+* `vout[1]`: (`OP_RETURN`) Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
+* all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
 ### Card transfer transaction layout
 
 TODO
 
-### P2TH tags for testnet and mainnet
+### P2TH tags
 
-The PeerAssets protocol requires a tag output to have a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous P2TH UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes.
+The PeerAssets protocol requires a P2TH output holding a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous P2TH UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as it would not incentivize UTXO cleanup.
 
 #### Deck spawn tags
 
 The deck spawn tag private keys are publicly known so it can be imported in every ppcoin node to easily query for deck spawn transactions without the need for a block explorer and to allow any node to claim the tag fees resulting in an UTXO cleanup.
 
 PPC mainnet:
-- PAprod: PAprodpH5y2YuJFHFCXWRuVzZNr7Tw78sV - 7A6cFXZSZnNUzutCMcuE1hyqDPtysH2LrSA9i5sqP2BPCLrAvZM
-- PAtest: PAtestVJ4usB4JQwZEhFrYRgnhKh8xRoRd - 79nanGVB5H5cGrpqN69F3v4rjyhXy5DiqF499TB5poF627Z1Gw4
+- `PAprod`: PAprodpH5y2YuJFHFCXWRuVzZNr7Tw78sV - 7A6cFXZSZnNUzutCMcuE1hyqDPtysH2LrSA9i5sqP2BPCLrAvZM
+- `PAtest`: PAtestVJ4usB4JQwZEhFrYRgnhKh8xRoRd - 79nanGVB5H5cGrpqN69F3v4rjyhXy5DiqF499TB5poF627Z1Gw4
 
 PPC testnet:
-- PAprod: miYNy9BbMkQ8Y5VaRDor4mgH5b3FEzVySr - 92NRcL14QbFBREH8runJAq3Q1viQiHoqTmivE8SNRGJ2Y1U6G3a
-- PAtest: mwqncWSnzUzouPZcLQWcLTPuSVq3rSiAAa - 92oB4Eb4GBfutvtEqDZq3T5avC7pnEkPVme23qTb5mDdDesinm6
+- `PAprod`: miYNy9BbMkQ8Y5VaRDor4mgH5b3FEzVySr - 92NRcL14QbFBREH8runJAq3Q1viQiHoqTmivE8SNRGJ2Y1U6G3a
+- `PAtest`: mwqncWSnzUzouPZcLQWcLTPuSVq3rSiAAa - 92oB4Eb4GBfutvtEqDZq3T5avC7pnEkPVme23qTb5mDdDesinm6
 
 #### Card transfer tag generation
 
