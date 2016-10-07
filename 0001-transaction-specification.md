@@ -53,13 +53,24 @@ The deck spawn tag private keys are publicly known so it can be imported in ever
 PPC mainnet:
 - PAprod: PAprodpH5y2YuJFHFCXWRuVzZNr7Tw78sV - 7A6cFXZSZnNUzutCMcuE1hyqDPtysH2LrSA9i5sqP2BPCLrAvZM
 - PAtest: PAtestVJ4usB4JQwZEhFrYRgnhKh8xRoRd - 79nanGVB5H5cGrpqN69F3v4rjyhXy5DiqF499TB5poF627Z1Gw4
+
 PPC testnet:
 - PAprod: miYNy9BbMkQ8Y5VaRDor4mgH5b3FEzVySr - 92NRcL14QbFBREH8runJAq3Q1viQiHoqTmivE8SNRGJ2Y1U6G3a
 - PAtest: mwqncWSnzUzouPZcLQWcLTPuSVq3rSiAAa - 92oB4Eb4GBfutvtEqDZq3T5avC7pnEkPVme23qTb5mDdDesinm6
 
 #### Card transfer tag generation
 
-Generated from deck spawn txnid ....
+The card transfer tag refers to the asset's unique id, the deck spawn transaction id, as this allows nodes interested in this asset to easily retrieve it's card transfer transactions.
+To generate the card transfer tag, the deck spawn transaction id is used as the raw private key, the code below illustrates how this is done using the bitcore JavaScript library.
+
+```
+var deckSpawnTxid = '5faf805821abc7307a9a38d1432521be325bd40cb492742c3164dd34fb78c283';
+var privateKey = new PrivateKey(deckSpawnTxid);
+console.log("private key WIF: " + privateKey.toWIF());
+console.log("tag address: " + privateKey.toPublicKey().toAddress());
+```
+
+Any node interested in following a specific asset's transactions can simply import the tag's private key in it's wallet.
 
 ## Drawbacks
 
