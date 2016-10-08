@@ -4,7 +4,7 @@
 - Type: new feature
 - Related components: /
 - Start Date: 06-10-2016
-- Discussion: (fill me in with link to RNC discussion - shepherd will complete this)
+- Discussion: (fill me in with link to RNC discussion)
 
 ## Summary
 
@@ -15,7 +15,7 @@ With the card issue and card burn transactions being special types of the card t
 
 The deck spawn transaction registers a new asset to be traded. The owner of `vin[0]` is the only enitity that is allowed to transfer assets with a negative balance, resulting in a card issue transaction. The deckspawn transaction decides how much an asset can be divided (number_of_decimals) and whether it can get issue multiple times or not (issue_once).
 
-The card transfer transaction transfers ownership of assets from one holder to the next. This works on a first come first serve basis following the serialization order on the blockchain. Once the balance of an account becomes too lower that a transfer transaction it issued, that transfer transaction is considered invalid. Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
+The card transfer transaction transfers ownership of assets from one holder to the next. This works on a first come first serve basis following the serialization order on the blockchain. Once the balance of an account becomes lower than a transfer transaction it issued, that transfer transaction is considered invalid. Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
 
 The card issue transaction is a special case of the card transfer transaction originating from the owner of the deck spawn transaction. The owner is the only account that is allowed to hold a negative balance. This balance is used as a checksum to validate a correct computation of all account balances. If the deck spawn transaction specifies issue_once to be true, only the first serialized card issue transaction is considered valid.
 
@@ -76,7 +76,7 @@ console.log("tag address: " + privateKey.toPublicKey().toAddress());
 
 Any node interested in following a specific asset's transactions can simply import the tag's private key in it's wallet.
 
-## Drawbacks
+<!-- ## Drawbacks
 
 Why should we *not* do this?
 
@@ -86,4 +86,4 @@ What other designs have been considered? What is the impact of not doing this?
 
 ## Unresolved questions
 
-What parts of the design are still to be done?
+What parts of the design are still to be done? -->
