@@ -14,8 +14,13 @@ message DeckSpawn {
   // Number of decimals to define how much an asset can divided
   uint32 number_of_decimals = 3;
 
-  // Can this asset be issued multiple times?
-  bool issue_once = 4;
+  // How can this asset be issued
+  // NONE   = 0x00  # No issuance allowed
+  // CUSTOM = 0x01  # Not specified, custom client implementation needed
+  // ONCE   = 0x02  # Only one issuance transaction from asset owner
+  // MULTI  = 0x04  # Multiple issuance transactions from asset owner allowed
+  // PEG    = 0x08  # A coin transfer to the owner address allows issuance of same amount
+  uint32 issue_mode = 4;
 
   // Free asset specific data (optional)
   bytes free_data = 5;
