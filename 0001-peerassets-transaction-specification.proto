@@ -18,9 +18,8 @@ message DeckSpawn {
   enum MODE {
     NONE   = 0x00; // No issuance allowed
     CUSTOM = 0x01; // Not specified, custom client implementation needed
-    ONCE   = 0x02; // Only one issuance transaction from asset owner
+    ONCE   = 0x02; // Only one issuance transaction from asset owner allowed
     MULTI  = 0x04; // Multiple issuance transactions from asset owner allowed
-    PEG    = 0x08; // A coin transfer to the owner address allows issuance of same amount
   }
   uint32 issue_mode = 4;
 

@@ -4,7 +4,7 @@
 - Type: new feature
 - Related components: /
 - Start Date: 06-10-2016
-- Discussion: (fill me in with link to RNC discussion)
+<!-- - Discussion: (fill me in with link to RNC discussion) -->
 
 ## Summary
 
@@ -13,8 +13,8 @@ Two basic types of PeerAsset transactions are specified.
 - Card transfer transaction
 With the card issue and card burn transactions being special types of the card transfer transaction.
 
-The deck spawn transaction *registers* a new asset to the network. The owner of `vin[0]` is the only enitity that is allowed to transfer assets with a negative balance, resulting in a card issue transaction. 
-The deck spawn transaction decides how much an asset will be issued, can the asset be divided (*number_of_decimals*) and whether it can get issue multiple times or not (*issue_once*).
+The deck spawn transaction *registers* a new asset to the network. The owner of `vin[0]` is the only enitity that is allowed to transfer assets with a negative balance, resulting in a card issue transaction.
+The deck spawn transaction decides how much the asset can be divided (*number_of_decimals*) and how the asset can be issued (*issue_mode*).
 
 The card transfer transaction *transfers* the ownership of assets from one holder to the next. This works on a first come first serve basis following the serialization order on the blockchain. Once the balance of an account becomes lower than a transfer transaction it issued, that transfer transaction is considered invalid. Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
 
@@ -76,6 +76,16 @@ console.log("tag address: " + privateKey.toPublicKey().toAddress());
 ```
 
 Any node interested in following a specific asset's transactions can simply import the tag's private key in it's wallet.
+
+### Issue modes
+
+Three different issue modes, `ONCE`, `MULTI` and `CUSTOM`, can be used to specify how an asset can be issued.
+If it makes sense, these modes can be combined to allow multiple ways to issue an asset.
+* `ONCE`: Only one issuance transaction from asset owner allowed.
+* `MULTI`: Multiple issuance transactions from asset owner allowed.
+* `CUSTOM`: A custom client is implemented with non-standard issuance rules. This allows standard clients to enumerate these assets.
+But to compute the asset balances, the custom client is required.
+Therefore these assets aren't tradable on standard exchanges.
 
 <!-- ## Drawbacks
 
