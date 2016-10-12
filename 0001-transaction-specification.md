@@ -4,7 +4,6 @@
 - Type: new feature
 - Related components: /
 - Start Date: 06-10-2016
-<!-- - Discussion: (fill me in with link to RNC discussion) -->
 
 ## Summary
 
@@ -86,15 +85,3 @@ If it makes sense, these modes can be combined to allow multiple ways to issue a
 * `CUSTOM`: A custom client is implemented with non-standard issuance rules. This allows standard clients to enumerate these assets.
 But to compute the asset balances, the custom client is required.
 Therefore these assets aren't tradable on standard exchanges.
-
-<!-- ## Drawbacks
-
-Why should we *not* do this?
-
-## Alternatives
-
-What other designs have been considered? What is the impact of not doing this?
-
-## Unresolved questions
-
-What parts of the design are still to be done? -->
