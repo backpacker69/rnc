@@ -23,8 +23,8 @@ message DeckSpawn {
   }
   uint32 issue_mode = 4;
 
-  // Free asset specific data (optional)
-  bytes free_data = 5;
+  // Free form asset specific data (optional)
+  bytes asset_specific_data = 5;
 }
 
 // Transaction data for:
@@ -43,6 +43,6 @@ message CardTransfer {
   // Encoded in this message for easy validation
   uint32 number_of_decimals = 3;
 
-  // Free asset specific data (optional)
-  bytes free_data = 4;
+  // Free form asset specific data (optional)
+  bytes asset_specific_data = 4;
 }
