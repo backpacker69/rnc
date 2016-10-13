@@ -1,25 +1,36 @@
 # Transaction specification
 
-- Status: unfinished
+- Status: proposed
 - Type: new feature
 - Related components: /
 - Start Date: 06-10-2016
 
 ## Summary
 
-Two basic types of PeerAsset transactions are specified.
+Two basic types and three special types of PeerAsset transactions are specified:
 - Deck spawn transaction
+  - Deck transfer transaction
 - Card transfer transaction
-With the card issue and card burn transactions being special types of the card transfer transaction.
+  - Card issue transaction
+  - Card burn transaction
+
+With the deck transfer, card issue and card burn transactions being special types of their respective base types transaction.
 
 The deck spawn transaction *registers* a new asset to the network. The owner of `vin[0]` is the only enitity that is allowed to transfer assets with a negative balance, resulting in a card issue transaction.
 The deck spawn transaction decides how much the asset can be divided (*number_of_decimals*) and how the asset can be issued (*issue_mode*).
 
+The deck transfer transaction is a special case of the deck spawn transaction. Instead of registering a new asset, the deck transfer transaction transfers ownership from `vin[1]` to `vin[0]`, meaning that both parties are required to sign the transfer transaction for it to be accepted in the blockchain. Next to a transfer of ownership, the transfer transaction makes it possible to upgrade the asset to a newer protocol version and it allows some meta-data to be added or updated. However, the asset's *short_name* and *issue_mode* are never allowed to change.
+
 The card transfer transaction *transfers* the ownership of assets from one holder to the next. This works on a first come first serve basis following the serialization order on the blockchain. Once the balance of an account becomes lower than a transfer transaction it issued, that transfer transaction is considered invalid. Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
 
-The card issue transaction is a special case of the card transfer transaction originating from the owner of the deck spawn transaction. The owner is the only account that is allowed to hold a negative balance. This balance is used as a checksum to validate a correct computation of all account balances. If the deck spawn transaction specifies issue_once to be true, only the first serialized card issue transaction is considered valid.
+The card issue transaction is a special case of the card transfer transaction originating from the owner of the deck spawn transaction (or latest deck transfer transaction if one exists).
+The asset owner is the only account that is allowed to hold a negative balance.
+This balance is used as a checksum to validate a correct computation of all account balances.
+If the deck spawn transaction specifies the `ONCE` issue mode, only the first serialized card issue transaction is considered valid.
 
-The card burn transaction is a special case of the card transfer transaction sent to the owner of the deck spawn transaction. This results in the owner's balance to decrease in absolute value, meaning that the total amount of issued assets decreases. This transaction can be used as Proof of Burn.
+The card burn transaction is a special case of the card transfer transaction sent to the owner of the deck spawn transaction.
+This results in the owner's balance to decrease in absolute value (become less negative), meaning that the total amount of issued assets decreases.
+This transaction can be used as Proof of Burn.
 
 ## Motivation
 
@@ -38,9 +49,15 @@ To easily query for PeerAsset transactions, the PeerAssets protocol requires a P
 For the deck spawn transaction, the following properties are specified:
 * `txnid`: The unique identifier for this asset.
 * `vin[0]`: The owner of the Asset. Ownership of the asset is proven by proving ownership over the Public Key Hash (PKH) or Script Hash (SH) originating `vin[0]`.
-* `vout[0]`: PeerAssets tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients.
+* `vout[0]`: Deck spawn tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. In case of the card transfer transaction, the card transfer tag is used.
 * `vout[1]`: (`OP_RETURN`) Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
+
+The deck transfer transaction differs slightly in the following properties:
+
+* `txnid`: No specific meaning, the original `txnid` remains the unique identifier.
+* `vin[1]`: The previous owner of the Asset in case of a deck transfer transaction, ignored in case of a deck spawn transaction.
+* `vout[0]`: Asset tag using a P2TH output based on the asset's unique identifier instead of a deck spawn tag.
 
 ### Deck spawn tags
 
@@ -59,13 +76,14 @@ PPC testnet:
 For the card transfer transaction, the following properties are specified:
 * `vin[0]`: The sending party of the transfer transaction.
 * `vout[0]`: The receiving party of the transfer transaction.
-* `vout[1]`: Specific asset tag using a P2TH output. This tag makes it easy for nodes to follow transactions of a specific asset.
+* `vout[1]`: Asset tag using a P2TH output based on the asset's unique identifier. This tag makes it easy for nodes to follow transactions of a specific asset.
 * `vout[2]`: (`OP_RETURN`) Asset transfer data. A protobuf3 encoded message containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
 
-### Card transfer tag generation
+### Asset tag generation
 
-The card transfer tag refers to the asset's unique id, the deck spawn transaction id, as this allows nodes interested in this asset to easily retrieve it's card transfer transactions.
-To generate the card transfer tag, the deck spawn transaction id is used as the raw private key. The code below illustrates how this is done using the bitcore JavaScript library.
+The asset tag refers to the asset's unique id, the deck spawn transaction id, as this allows nodes interested in this asset to easily retrieve it's card transfer and deck transfer transactions.
+To generate the card transfer tag, the deck spawn transaction id is used as the raw private key.
+The code below illustrates how this is done using the bitcore JavaScript library.
 
 ```
 var deckSpawnTxid = '5faf805821abc7307a9a38d1432521be325bd40cb492742c3164dd34fb78c283';
