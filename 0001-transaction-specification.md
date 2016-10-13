@@ -42,22 +42,22 @@ A PeerAssets transaction encodes it's information in the transaction's inputs (`
 
 ### P2TH tags
 
-To easily query for PeerAsset transactions, the PeerAssets protocol requires a P2TH output in it's transactions. This output is required to hold a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous P2TH UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as that would not incentivize UTXO cleanup.
+To easily query for PeerAsset transactions, the PeerAssets protocol requires a [P2TH][2] output in it's transactions. This output is required to hold a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous [P2TH][2] UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as that would not incentivize UTXO cleanup.
 
 ### Deck spawn transaction layout
 
 For the deck spawn transaction, the following properties are specified:
 * `txnid`: The unique identifier for this asset.
 * `vin[0]`: The owner of the Asset. Ownership of the asset is proven by proving ownership over the Public Key Hash (PKH) or Script Hash (SH) originating `vin[0]`.
-* `vout[0]`: Deck spawn tag using a P2TH output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. In case of the card transfer transaction, the card transfer tag is used.
-* `vout[1]`: (`OP_RETURN`) Asset meta-data. A protobuf3 encoded message containing meta-data about the asset (ref. peerassets.proto).
+* `vout[0]`: Deck spawn tag using a [P2TH][2] output. This tag registers the assets as a PeerAsset so that it can be discovered by PeerAsset clients. In case of the card transfer transaction, the card transfer tag is used.
+* `vout[1]`: (`OP_RETURN`) Asset meta-data. A [protobuf3 encoded message][1] containing meta-data about the asset.
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
 The deck transfer transaction differs slightly in the following properties:
 
 * `txnid`: No specific meaning, the original `txnid` remains the unique identifier.
 * `vin[1]`: The previous owner of the Asset in case of a deck transfer transaction, ignored in case of a deck spawn transaction.
-* `vout[0]`: Asset tag using a P2TH output based on the asset's unique identifier instead of a deck spawn tag.
+* `vout[0]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier instead of a deck spawn tag.
 
 ### Deck spawn tags
 
@@ -76,14 +76,14 @@ PPC testnet:
 For the card transfer transaction, the following properties are specified:
 * `vin[0]`: The sending party of the transfer transaction.
 * `vout[0]`: The receiving party of the transfer transaction.
-* `vout[1]`: Asset tag using a P2TH output based on the asset's unique identifier. This tag makes it easy for nodes to follow transactions of a specific asset.
-* `vout[2]`: (`OP_RETURN`) Asset transfer data. A protobuf3 encoded message containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
+* `vout[1]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier. This tag makes it easy for nodes to follow transactions of a specific asset.
+* `vout[2]`: (`OP_RETURN`) Asset transfer data. [protobuf3 encoded message][1] containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
 
 ### Asset tag generation
 
 The asset tag refers to the asset's unique id, the deck spawn transaction id, as this allows nodes interested in this asset to easily retrieve it's card transfer and deck transfer transactions.
 To generate the card transfer tag, the deck spawn transaction id is used as the raw private key.
-The code below illustrates how this is done using the bitcore JavaScript library.
+The code below illustrates how this is done using the [bitcore JavaScript library][3].
 
 ```
 var deckSpawnTxid = '5faf805821abc7307a9a38d1432521be325bd40cb492742c3164dd34fb78c283';
@@ -103,3 +103,8 @@ If it makes sense, these modes can be combined to allow multiple ways to issue a
 * `CUSTOM`: A custom client is implemented with non-standard issuance rules. This allows standard clients to enumerate these assets.
 But to compute the asset balances, the custom client is required.
 Therefore these assets aren't tradable on standard exchanges.
+
+<!-- References -->
+[1]: 0001-peerassets-transaction-specification.proto
+[2]: http://peerassets.github.io/P2TH/
+[3]: https://github.com/bitpay/bitcore-lib
