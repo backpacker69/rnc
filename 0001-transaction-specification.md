@@ -53,11 +53,20 @@ For the deck spawn transaction, the following properties are specified:
 * `vout[1]`: (`OP_RETURN`) Asset meta-data. A [protobuf3 encoded message][1] containing meta-data about the asset.
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
-The deck transfer transaction differs slightly in the following properties:
+### Deck transfer transaction layout
 
-* `txnid`: No specific meaning, the original `txnid` remains the unique identifier.
-* `vin[1]`: The previous owner of the Asset in case of a deck transfer transaction, ignored in case of a deck spawn transaction.
+Although the deck transfer transaction is a special case of the deck spawn transaction, it differs enough to be separately specified.
+
+* `txnid`: No specific meaning, the deck spawn `txnid` remains the unique identifier.
+* `vin[0]`: The new owner of the Asset. For safety reasons, a transaction input is used for the new owner. Using an input instead of an output requires the receiver of the deck transfer transaction to sign the transaction making sure that the receiving party is able to sign future transactions. Note that `vin[]` and `vout[]` refer to peercoin transaction in and outputs, which aren't necessarily PeerAsset in and outputs.
+* `vin[1]`: The previous owner of the Asset in case of a deck transfer transaction.
 * `vout[0]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier instead of a deck spawn tag.
+* `vout[1]`: (`OP_RETURN`) Asset meta-data. A [protobuf3 encoded message][1] with the same layout as the deck spawn message.
+* all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
+
+The deck transfer protobuf message has the same layout as the deck spawn message as it overwrites the properties of the deck spawn transaction.
+This allows the deck transfer transaction to upgrade an asset to a newer protocol version.
+However, changes to `short_name`, `number_of_decimals` or `issue_mode` are not allowed and will mark the transaction as invalid.
 
 ### Deck spawn tags
 
