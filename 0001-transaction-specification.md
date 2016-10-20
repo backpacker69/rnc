@@ -42,7 +42,10 @@ A PeerAssets transaction encodes it's information in the transaction's inputs (`
 
 ### P2TH tags
 
-To easily query for PeerAsset transactions, the PeerAssets protocol requires a [P2TH][2] output in it's transactions. This output is required to hold a minimum value of 0.005PPC, half the peercoin transaction fee, to be considered valid. This has two reasons. It is a counter measure to tag spam. And it incentivizes UTXO cleanup. The minimum tag fee can be recovered from a previous [P2TH][2] UTXO so it doesn't pollute the node's UTXO tables. Having the minimum tag fee lower than the transaction fee ensures that this output is merged with other outputs to be spent, resulting in a smaller UTXO table on the peercoin nodes. The minimum value can be changed in future protocol versions. However it can't be set lower than the cost of a single transaction input as that would not incentivize UTXO cleanup.
+To easily query for PeerAsset transactions, the PeerAssets protocol requires a [P2TH][2] output in it's transactions.
+The peercoin v0.5 protocol requires every output to at least 0.01PPC of value or to hold no value at all.
+To prevent tag spam to slow down PeerAsset clients, a tag output should at least hold 0.01PPC of value before the client starts parsing the entire transaction, this is referred to as the *tag fee*.
+Therefore, every PeerAsset transaction spends 0.02PPC of wich 0.01PPC is burned as a transaction fee and 0.01PPC is sent to the tag hash to be claimed as a reward for cleaning up the UTXO table, for example by reusing the tag fee in a future PeerAsset transaction.
 
 ### Deck spawn transaction layout
 
