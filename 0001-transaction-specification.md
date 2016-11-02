@@ -88,7 +88,7 @@ PPC testnet:
 For the card transfer transaction, the following properties are specified:
 * `vin[0]`: The sending party of the transfer transaction.
 * `vout[0]`: The receiving party of the transfer transaction.
-* `vout[1]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier. This tag makes it easy for nodes to follow transactions of a specific asset.
+* `vout[1]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier, see [test vectors][4]. This tag makes it easy for nodes to follow transactions of a specific asset.
 * `vout[2]`: (`OP_RETURN`) Asset transfer data. [protobuf3 encoded message][1] containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
 
 ### Asset tag generation
@@ -120,3 +120,4 @@ Therefore these assets aren't tradable on standard exchanges.
 [1]: 0001-peerassets-transaction-specification.proto
 [2]: http://peerassets.github.io/P2TH/
 [3]: https://github.com/bitpay/bitcore-lib
+[4]: 0002-transaction-test-vectors.md
