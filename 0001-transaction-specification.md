@@ -21,12 +21,17 @@ The deck spawn transaction decides how much the asset can be divided (*number_of
 
 The deck transfer transaction is a special case of the deck spawn transaction. Instead of registering a new asset, the deck transfer transaction transfers ownership from `vin[1]` to `vin[0]`, meaning that both parties are required to sign the transfer transaction for it to be accepted in the blockchain. Next to a transfer of ownership, the transfer transaction makes it possible to upgrade the asset to a newer protocol version and it allows some meta-data to be added or updated. However, the asset's *short_name* and *issue_mode* are never allowed to change.
 
-The card transfer transaction *transfers* the ownership of assets from one holder to the next. This works on a first come first serve basis following the serialization order on the blockchain. Once the balance of an account becomes lower than a transfer transaction it issued, that transfer transaction is considered invalid. Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
+The card transfer transaction *transfers* the ownership of assets from one the originating address to one or multiple new addresses.
+This works on a first come first serve basis following the serialization order on the blockchain.
+Once the balance of an account becomes lower than a transfer transaction it issued (sum of it's outputs), that entire transfer transaction is considered invalid.
+Topping up the balance of an account to make that transfer valid, requires that transaction to be resent so it gets serialized in the chain after the incoming transaction on that account.
 
 The card issue transaction is a special case of the card transfer transaction originating from the owner of the deck spawn transaction (or latest deck transfer transaction if one exists).
 The asset owner is the only account that is allowed to hold a negative balance.
 This balance is used as a checksum to validate a correct computation of all account balances.
 If the deck spawn transaction specifies the `ONCE` issue mode, only the first serialized card issue transaction is considered valid.
+Just as the card transfer transaction, the issue transaction is allowed to contain multiple outputs.
+This means that when the `ONCE` issue mode is specified, cards can be issued to multiple parties directly.
 
 The card burn transaction is a special case of the card transfer transaction sent to the owner of the deck spawn transaction.
 This results in the owner's balance to decrease in absolute value (become less negative), meaning that the total amount of issued assets decreases.
@@ -87,9 +92,10 @@ PPC testnet:
 
 For the card transfer transaction, the following properties are specified:
 * `vin[0]`: The sending party of the transfer transaction.
-* `vout[0]`: The receiving party of the transfer transaction.
-* `vout[1]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier, see [test vectors][4]. This tag makes it easy for nodes to follow transactions of a specific asset.
-* `vout[2]`: (`OP_RETURN`) Asset transfer data. [protobuf3 encoded message][1] containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
+* `vout[0]`: Asset tag using a [P2TH][2] output based on the asset's unique identifier, see [test vectors][4]. This tag makes it easy for nodes to follow transactions of a specific asset.
+* `vout[1]`: (`OP_RETURN`) Asset transfer data. [protobuf3 encoded message][1] containing the amount of transferred assets and optionally some meta-data (ref. peerassets.proto).
+* `vout[n+2]`: The receiving parties of the transfer transaction. vout[n+2] receives the n-th (starting with 0) amount specified in the asset transfer data message.
+* all other in and outputs are free to be used in any way. `vout[2+receiver_cnt]` will typically be used as a change output.
 
 ### Asset tag generation
 
