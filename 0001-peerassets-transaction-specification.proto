@@ -8,8 +8,8 @@ message DeckSpawn {
   // Protocol version number
   uint32 version = 1;
 
-  // Short name for the registered asset
-  string short_name = 2;
+  // Name for the registered asset
+  string name = 2;
 
   // Number of decimals to define how much an asset can divided
   uint32 number_of_decimals = 3;
