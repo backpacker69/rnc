@@ -19,7 +19,7 @@ With the deck transfer, card issue and card burn transactions being special type
 The deck spawn transaction *registers* a new asset to the network. The owner of `vin[0]` is the only enitity that is allowed to transfer assets with a negative balance, resulting in a card issue transaction.
 The deck spawn transaction decides how much the asset can be divided (*number_of_decimals*) and how the asset can be issued (*issue_mode*).
 
-The deck transfer transaction is a special case of the deck spawn transaction. Instead of registering a new asset, the deck transfer transaction transfers ownership from `vin[1]` to `vin[0]`, meaning that both parties are required to sign the transfer transaction for it to be accepted in the blockchain. Next to a transfer of ownership, the transfer transaction makes it possible to upgrade the asset to a newer protocol version and it allows some meta-data to be added or updated. However, the asset's *short_name* and *issue_mode* are never allowed to change.
+The deck transfer transaction is a special case of the deck spawn transaction. Instead of registering a new asset, the deck transfer transaction transfers ownership from `vin[1]` to `vin[0]`, meaning that both parties are required to sign the transfer transaction for it to be accepted in the blockchain. Next to a transfer of ownership, the transfer transaction makes it possible to upgrade the asset to a newer protocol version and it allows some meta-data to be added or updated. However, the asset's *name* and *issue_mode* are never allowed to change.
 
 The card transfer transaction *transfers* the ownership of assets from one the originating address to one or multiple new addresses.
 This works on a first come first serve basis following the serialization order on the blockchain.
@@ -74,7 +74,7 @@ Although the deck transfer transaction is a special case of the deck spawn trans
 
 The deck transfer protobuf message has the same layout as the deck spawn message as it overwrites the properties of the deck spawn transaction.
 This allows the deck transfer transaction to upgrade an asset to a newer protocol version.
-However, changes to `short_name`, `number_of_decimals` or `issue_mode` are not allowed and will mark the transaction as invalid.
+However, changes to `name`, `number_of_decimals` or `issue_mode` are not allowed and will mark the transaction as invalid.
 
 ### Deck spawn tags
 
