@@ -119,13 +119,14 @@ User does not have to prefix the Twitter username with the `@` , client is expec
 As the name of this deck is "bob", $n can be used as a subsitute for *deck_name* and automatically replaced by *deck_name* in each string.
 
 _Substitutes:_
-`$e` - Email
 
-`$n` - Deck name
+* `$e` - Email
 
-`$fn` - Full name
+* `$n` - Deck name
 
-`@` is automatically prefixed for Twitter username.
+* `$fn` - Full name
+
+* `@` is automatically prefixed for Twitter username.
 
 Valid identity_metainfo with these rules applied:
 
