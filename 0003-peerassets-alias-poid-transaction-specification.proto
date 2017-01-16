@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+// PeerAssets-based digital identity protocol specification
+// written by peerchemist <peerchemist@protonmail.ch>
+
+// Identity message
+message Identity {
+
+  // Protocol version number
+  uint32 version = 1;
+
+  // Full name
+  string full_name = 2;
+
+  // Email address
+  string email = 3;
+
+  // Twitter.com username
+  string twitter_id = 4;
+
+  // Github.com username
+  string github_id = 5;
+
+  // Reddit.com username
+  string reddit_id = 6;
+
+  // Freenode IRC nick
+  string freenode_id = 7;
+
+  // Facebook user id number
+  uint32 facebook_id = 8;
+
+  // GPG key fingerprint
+  bytes gpg_fingerprint = 9;
+
+  // Optional data
+  bytes var = 10;
+}
