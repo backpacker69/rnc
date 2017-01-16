@@ -58,6 +58,7 @@ vout[1] = alias P2TH
 #### Alias deck P2TH
 
 > Address: `PP1D3UAXSiKztcMFWwscuTL8rdFhbRkw3z`
+
 > WIF: `U789GmLYDNeJqVQPMmbJn2Jba7NbjhRRMjtfrBWHPpVgZU1yGCY6`
 
 ### Card issue
@@ -119,8 +120,11 @@ As the name of this deck is "bob", $n can be used as a subsitute for *deck_name*
 
 _Substitutes:_
 `$e` - Email
+
 `$n` - Deck name
+
 `$fn` - Full name
+
 `@` is automatically prefixed for Twitter username.
 
 Valid identity_metainfo with these rules applied:
