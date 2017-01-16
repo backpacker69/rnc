@@ -61,17 +61,6 @@ For the deck spawn transaction, the following properties are specified:
 * `vout[1]`: (`OP_RETURN`) Asset meta-data. A [protobuf3 encoded message][1] containing meta-data about the asset.
 * all other in and outputs are free to be used in any way. `vout[2]` will typically be used as a change output.
 
-#### Validation
-
-`vout[1]`, the `OP_RETURN` transaction carrying asset meta-data contains a protobuf3 encoded message. This message describes the deck paramaters, name, amount of decimals and issue mode.
-This data is parsed by PeerAssets client 
-
-assert deck.version > 0, {"error": "Deck metainfo incomplete, version can't be 0."}
-assert deck.name is not "", {"error": "Deck metainfo, Deck must have a name."}
-assert deck.number_of_decimals > 0, {"error": '''Deck metainfo, number of decimals
-                                      has to be larger than zero.'''}
-
-
 ### Deck transfer transaction layout
 
 Although the deck transfer transaction is a special case of the deck spawn transaction, it differs enough to be separately specified.
