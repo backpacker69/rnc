@@ -36,7 +36,7 @@ Alias information is encoded in the *name* field of *deck_spawn* PeerAssets tran
 
 ### Deck spawn
 
-An alias deck is spawned like any other PeerAssets deck. However, it is a single asset deck (singlet deck), so it is spawned with *issue_mode* `ONCE` and *number_of_decimals* = `0`. The name of a deck is the `alias` and is allowed to be any UTF-8 string desired by the issuer.
+An alias deck is spawned like any other PeerAssets deck. However, it is a single asset deck (singlet deck), so it is spawned with *issue_mode* = `SINGLET`. The name of a deck is the `alias` and is allowed to be any UTF-8 string desired by the issuer.
 
 ```
 deck_spawn_metainfo =
@@ -44,7 +44,7 @@ deck_spawn_metainfo =
 		"version" : 1,
 		"name": "bob",
 		"number_of_decimals": 0,
-		"issue_mode": ONCE
+		"issue_mode": SINGLET
 		}
 ```
 
@@ -168,7 +168,7 @@ Revoking proof-of-identity is done by burning the token by sending it to the *de
 
 ### Alias squatting
 
-As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except their actual owner.
+As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except the~~~~ir actual owner.
 
 ## Advantages
 
