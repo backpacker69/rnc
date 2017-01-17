@@ -20,6 +20,7 @@ message DeckSpawn {
     CUSTOM = 0x01; // Not specified, custom client implementation needed
     ONCE   = 0x02; // Only one issuance transaction from asset owner allowed
     MULTI  = 0x04; // Multiple issuance transactions from asset owner allowed
+    SINGLET = 0x08; // Single (one) card issued from asset owner allowed
   }
   uint32 issue_mode = 4;
 

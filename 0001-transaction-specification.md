@@ -114,10 +114,11 @@ Any node interested in following a specific asset's transactions can simply impo
 
 ### Issue modes
 
-Three different issue modes, `ONCE`, `MULTI` and `CUSTOM`, can be used to specify how an asset can be issued.
+Four different issue modes, `ONCE`, `MULTI`, `SINGLET` and `CUSTOM`, can be used to specify how an asset can be issued.
 If it makes sense, these modes can be combined to allow multiple ways to issue an asset.
 * `ONCE`: Only one issuance transaction from asset owner allowed.
 * `MULTI`: Multiple issuance transactions from asset owner allowed.
+* `SINGLET`: Single (just one) card issuance allowed from asset issuer.
 * `CUSTOM`: A custom client is implemented with non-standard issuance rules. This allows standard clients to enumerate these assets.
 But to compute the asset balances, the custom client is required.
 Therefore these assets aren't tradable on standard exchanges.
