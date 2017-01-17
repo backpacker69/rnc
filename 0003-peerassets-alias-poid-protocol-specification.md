@@ -52,7 +52,7 @@ Unlike the standard deck_spawn PeerAssets transaction, the alias deck_spawns pay
 
 ```
 vout[0] = deck_spawn P2TH
-vout[1] = alias P2TH
+vout[2] = alias P2TH
 ```
 
 #### Alias deck P2TH
