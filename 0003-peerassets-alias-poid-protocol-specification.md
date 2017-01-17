@@ -168,7 +168,7 @@ Revoking proof-of-identity is done by burning the token by sending it to the *de
 
 ### Alias squatting
 
-As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except the~~~~ir actual owner.
+As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except their actual owner.
 
 ## Advantages
 
