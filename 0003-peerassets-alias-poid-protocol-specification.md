@@ -148,7 +148,7 @@ The size of the identity metainfo without applying the substitutes is 64 bytes, 
 
 ### Alias transfer
 
-Transferring the alias to a different address is a process equal to the standard PeerAssets *card_transfer* transaction, except in one detail: it requires using one more P2TH address. The most recent *card_transfer* of the identity deck is considered an upgrade over all previous ones, thus being the only relevant one.
+Transferring the alias to a different address is a process equal to the standard PeerAssets *card_transfer* transaction. The most recent *card_transfer* of the identity deck is considered an upgrade over all previous ones, thus being the only relevant one.
 To transfer full control over the alias deck, an issuer should use the PeerAssets deck_transfer transaction to transfer the deck to another party.
 
 ### Revoking alias
