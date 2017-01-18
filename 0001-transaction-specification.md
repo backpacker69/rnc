@@ -118,7 +118,7 @@ Four different issue modes, `ONCE`, `MULTI`, `SINGLET` and `CUSTOM`, can be used
 If it makes sense, these modes can be combined to allow multiple ways to issue an asset.
 * `ONCE`: Only one issuance transaction from asset owner allowed.
 * `MULTI`: Multiple issuance transactions from asset owner allowed.
-* `SINGLET`: Single (just one) card issuance allowed from asset issuer.
+* `SINGLET`: Single (just one) card issuance allowed from asset issuer. Number of decimals is mandated to be 0.
 * `CUSTOM`: A custom client is implemented with non-standard issuance rules. This allows standard clients to enumerate these assets.
 But to compute the asset balances, the custom client is required.
 Therefore these assets aren't tradable on standard exchanges.
