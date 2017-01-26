@@ -9,7 +9,7 @@
 
 Extension of PeerAssets protocol specifies using singlet PeerAsset deck to alias the Peercoin address with any UTF-8 string with added secondary functionality of using descriptive information contained in the PeerAssets token to allow proof-of-identity verification of the privkey owner.
 
-Use of aliases in the form of @alias instead of a standard Peercoin address is made possible for all PeerAssets and Peercoin transactions. A blockchain client (wallet) will be able to easily translate @Bob to a Peercoin address like PDF4NNGBGRSxnRJPyNQyMHqffqbXEtRy5T.
+Use of aliases in the form of @alias instead of a standard Peercoin address is made possible for all PeerAssets and Peercoin transactions. A blockchain client (wallet) can save verified alias locally and translate @Bob to a Peercoin address like PDF4NNGBGRSxnRJPyNQyMHqffqbXEtRy5T on the fly.
 
 This proposal tries to come up with an elegant solution to the problem of matching the "real life" identity of a person with an address on the blockchain by verifying that specific public key is in control of person X. This protocol allows knowing your customer (KYC) and obliging to the law in some countries. 1 Usage of this protocol for identity verification also prevents sybil attack if there is a service depending on trusting some specific key set.
 
@@ -168,11 +168,14 @@ Revoking proof-of-identity is done by burning the token by sending it to the *de
 
 ### Alias squatting
 
-As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except their actual owner.
+As multiple PeerAssets decks can have the exact same name with the exact same @alias handle, alias squatting and identity theft is possible due to this. However, no PeerAssets deck will have the same asset_id, so this problem can be circumvented by the original holder publicly stating which deck is actually issued by him. Beside, no squatter will be able to use the Twitter, Email or Facebook with the same name as the alias to verify the alias, except their actual owner.
+Future users are advised to do the alias verification manually and save the autohorized decks in the local wallet (local alias address book).
 
 ## Advantages
 
 * Improving user experience by providing a way to use human-friendly names (aliases) instead of Peercoin addresses
+
+* Improved quantum resistance by allowing users to discard key set often and alias the new one without the hastle of having to tell every business partner / transacting peer that address has been changed.
 
 ## Drawbacks
 
