@@ -43,6 +43,11 @@ To correctly calculate the balance of a PeerAssets address a client should only 
 ##### bitflags
 As specified in [0001-peerassets-transaction-specification.proto](0001-peerassets-transaction-specification.proto), the `UNFLUSHABLE` issue mode is activated by setting the `0x10` bitflag.
 
+
+##### Implementation
+Upon validation of a card transfer transaction not originating from the asset owner, one should check whether the `UNFLUSHABLE` bit is set.
+If set, the transaction should be marked invalid and discarded for the balance calculation.
+
 ### Subscription mode
 The `SUBSCRIPTION` issue mode marks an address holding tokens as subscribed for a limited timeframe.
 This timeframe is defined by the balance of the account and the time at which the first cards of this token are received.
@@ -57,9 +62,22 @@ This has the advandtage of simplifying possible client implementations as the ba
 
 `SUBSCRIPTION` combines `MULTI`, `UNFLUSHABLE` and it's own `0x20` bitflags resulting in the combined `0x34` value (`0x34 = 0x04 | 0x10 | 0x20`) as specified in [0001-peerassets-transaction-specification.proto](0001-peerassets-transaction-specification.proto).
 
-### Implementation
+##### Implementation
+As the `SUBSCRIPTION` flag automatically sets the `MULTI` & `UNFLUSHABLE` flags, the `SUBSCRIPTION` flag does not alter the balance calculation logic.
 
-Implementation suggestions.
+It is up to the client implementation how to handle or expose the timeframe of subscription.
+
+The subscription timeframe is calculated as follows:
+```
+start_time = <time_of_first_card_transfer>
+end_time = start_time + balance * hour
+```
+
+Therefore, increasing the balance of an address extends it's subscription timeframe by the increased amount in hours.
+
+**Note** that increasing the balance of an address which subscription has expired, **extends it's timeframe starting from the expiration time**.
+Meaning that if an asset owner whishes to extend the timeframe of an expired address starting from current time, the owner needs to either take into account the time since expiration or require the usage of an empty address.
+Using an empty address has the advantage of increased privacy and is therefore the preferred way of working, BIP32 wallets help in hiding the different addresses from the user.
 
 ### Use Case
 
